@@ -1,5 +1,6 @@
 package com.bignerdranch.android.votingapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -17,7 +18,6 @@ class RegisterActivity : AppCompatActivity()
 
 
         val spnState = findViewById<Spinner>(R.id.spnState)
-        val states = arrayOf<String>("Alabama")
         val spnAdapter = ArrayAdapter.createFromResource(this, R.array.state_list,android.R.layout.simple_spinner_dropdown_item)
         spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spnState.adapter = spnAdapter
@@ -25,30 +25,55 @@ class RegisterActivity : AppCompatActivity()
         val context = this
         //When register button is pressed
         btnRegister.setOnClickListener {
-            if (editTextFName.text.toString().isNotEmpty() && editTextMName.text.toString()
-                    .isNotEmpty() && editTextLName.text.toString()
-                    .isNotEmpty() && editTextBDay.text.toString()
-                    .isNotEmpty() && editTextZip.text.toString()
-                    .isNotEmpty()
-            )
+            if (editTextFName.text.toString().isNotEmpty())
             {
-                //Create new user with contents of text fields
-                val user = User(
-                    editTextFName.text.toString(),
-                    editTextMName.text.toString(),
-                    editTextLName.text.toString(),
-                    editTextBDay.text.toString(),
-                    spnState.selectedItem.toString(),
-                    Integer.parseInt(editTextZip?.text.toString())
+                if(editTextMName.text.toString().isNotEmpty())
+                {
+                    if(editTextLName.text.toString().isNotEmpty())
+                    {
+                        if(editTextBDay.text.toString().isNotEmpty())
+                        {
+                            if(editTextZip.text.toString().isNotEmpty() && editTextZip.text.toString().length == 5)
+                            {
+                                //Create new user with contents of text fields
+                                val user = User(
+                                    editTextFName.text.toString(),
+                                    editTextMName.text.toString(),
+                                    editTextLName.text.toString(),
+                                    editTextBDay.text.toString(),
+                                    spnState.selectedItem.toString(),
+                                    Integer.parseInt(editTextZip?.text.toString())
+                                )
+                                val intent = Intent(this, FingerprintAuthentication::class.java)
+                                intent.putExtra("User", user)//Pass the user object
+
+                                startActivity(intent)
 
 
-                )
-                val db = DataBaseHandler(context)
-                db.insertUser(user)
+                            }
+                            else
+                            {
+                                Toast.makeText(context, "ZIP # must be 5 characters long", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(context, "Date must follow format MM/DD/YYYY", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Name must be less than 20 characters and have no spaces", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else
+                {
+                    Toast.makeText(context, "Name must be less than 20 characters and have no spaces", Toast.LENGTH_SHORT).show()
+                }
             }
             else
             {
-                Toast.makeText(context, "Please Check All Fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Name must be less than 20 characters and have no spaces", Toast.LENGTH_SHORT).show()
             }
         }
     }

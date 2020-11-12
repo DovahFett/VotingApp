@@ -1,8 +1,9 @@
 package com.bignerdranch.android.votingapp
 
 import java.util.*
+import java.io.Serializable
 
-class User
+class User : Serializable //Serializable object that can be passed between activities
 {
     var id: Int = 0
     var fName : String = ""
