@@ -12,7 +12,7 @@ class User : Serializable //Serializable object that can be passed between activ
     var bDay : String = ""
     var state : String = ""
     var zipCode : Int = 0
-    var fingerPrint : Int = 0
+    var password : String = ""
 
     constructor(fName : String, mName : String, lName : String, bDay : String, state : String, zipCode : Int)
     {

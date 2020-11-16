@@ -10,11 +10,13 @@ import android.os.CancellationSignal
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.startActivity
 
 @RequiresApi(Build.VERSION_CODES.M)
-class FingerPrintHelper(private val context: Context) : FingerprintManager.AuthenticationCallback()
+class FingerPrintHelper(private val context: Context, val user: User) : FingerprintManager.AuthenticationCallback()
 {
     lateinit var cancellationSignal : CancellationSignal
+    var pm = PasswordManager()
 
     fun startAuth(manager: FingerprintManager, cryptoObject : FingerprintManager.CryptoObject)
     {
@@ -36,7 +38,11 @@ class FingerPrintHelper(private val context: Context) : FingerprintManager.Authe
     {
         super.onAuthenticationSucceeded(result)
         Toast.makeText(context, "Authentication Succeeded", Toast.LENGTH_LONG).show()
-        context.startActivity(Intent(context, BallotList::class.java))
+        user.password = pm.generatePassword(isWithLetters = true, isWithUppercase = true, isWithNumbers = true, isWithSpecial = true, 16)//Generate strong password for user
+        val intent = Intent(context, BallotList::class.java)
+        intent.putExtra("User", user)//Pass the user object
+        context.startActivity(intent)
+
     }
 
     override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?)

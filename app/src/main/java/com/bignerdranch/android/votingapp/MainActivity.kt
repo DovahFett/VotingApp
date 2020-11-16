@@ -13,7 +13,8 @@ class MainActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        val context = this
+        val db = DataBaseHandler(context)
         //Create listeners for both register buttons
         val btnNewUser = findViewById<Button>(R.id.btnNewUser)
 
@@ -41,9 +42,4 @@ class MainActivity : AppCompatActivity()
 
 
     }
-
-
-
-
-
 }

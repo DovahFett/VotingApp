@@ -23,6 +23,7 @@ class RegisterActivity : AppCompatActivity()
         spnState.adapter = spnAdapter
 
         val context = this
+        val db = DataBaseHandler(context)
         //When register button is pressed
         btnRegister.setOnClickListener {
             if (editTextFName.text.toString().isNotEmpty())
@@ -44,12 +45,10 @@ class RegisterActivity : AppCompatActivity()
                                     spnState.selectedItem.toString(),
                                     Integer.parseInt(editTextZip?.text.toString())
                                 )
+                                db.insertUser(user)
                                 val intent = Intent(this, FingerprintAuthentication::class.java)
                                 intent.putExtra("User", user)//Pass the user object
-
                                 startActivity(intent)
-
-
                             }
                             else
                             {

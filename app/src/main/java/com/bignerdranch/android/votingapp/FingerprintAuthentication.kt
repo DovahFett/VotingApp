@@ -29,6 +29,8 @@ class FingerprintAuthentication : AppCompatActivity()
     lateinit var cipher : Cipher
     lateinit var cryptoObject : FingerprintManager.CryptoObject
 
+    lateinit var user : User
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -37,7 +39,8 @@ class FingerprintAuthentication : AppCompatActivity()
 
         km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
         fm = getSystemService(FINGERPRINT_SERVICE) as FingerprintManager
-        val user = intent.getSerializableExtra("User") as User?
+        user =
+            (intent.getSerializableExtra("User") as User?)!! //Receive user from RegisterActivity.kt
 
         if(!km.isKeyguardSecure)
         {
@@ -107,7 +110,7 @@ class FingerprintAuthentication : AppCompatActivity()
                 cryptoObject = FingerprintManager.CryptoObject(it)
             }
         }
-        var helper = FingerPrintHelper(this)
+        var helper = FingerPrintHelper(this, user)
         if(fm != null && cryptoObject != null)
         {
             helper.startAuth(fm, cryptoObject)

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 
  val DATABASE_NAME = "VotingDB"
- val TABLE_NAME = "Users"
+ var TABLE_NAME = "Users"
  val COL_ID = "ID"
  val COL_FNAME = "FirstName"
  val COL_MNAME = "MiddleName"
@@ -15,7 +15,7 @@ import android.widget.Toast
  val COL_BDAY = "DateOfBirth"
  val COL_STATE = "State"
  val COL_ZIPCODE = "ZIPCode"
- val COL_FINGERPRINT = "Fingerprint"
+ val COL_PASSWORD = "Password"
 
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1)
@@ -30,7 +30,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 COL_LNAME + " VARCHAR(256)," +
                 COL_BDAY + " VARCHAR(256)," +
                 COL_STATE + " VARCHAR(256)," +
-                COL_ZIPCODE + " VARCHAR(256))";
+                COL_ZIPCODE + " VARCHAR(256)," + COL_PASSWORD + " VARCHAR(256))";
 
         db?.execSQL(createTable)
 
@@ -50,6 +50,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         cv.put(COL_BDAY, user.bDay)
         cv.put(COL_STATE, user.state)
         cv.put(COL_ZIPCODE, user.zipCode)
+        cv.put(COL_PASSWORD, user.password)
         var result = db.insert(TABLE_NAME, null, cv)
         if (result == (-1).toLong())
             Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show()
@@ -61,7 +62,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     {
         var list: MutableList<User> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_ZIPCODE + " = " + user.fingerPrint//Get user with matching fingerprint
+        val query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PASSWORD + " = " + user.password//Get user with matching password
         val result = db.rawQuery(query, null)
         if(result.moveToFirst())
         {
@@ -74,12 +75,44 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 user.bDay = result.getString(4)
                 user.state = result.getString(5)
                 user.zipCode = result.getString(6).toInt()
+                user.password = result.getString(7)
                 list.add(user)
             }while (result.moveToNext())
         }
         result.close()
         db.close()
         return list
+    }
+    //Update user's password in database
+    fun updatePassword(user: User)
+    {
+        val db = this.writableDatabase
+        var cv = ContentValues()
+        cv.put(COL_PASSWORD, user.password)
+        db.update("Users", cv, "ID=" +user.id, null)
+    }
+    //Get the user's ID from the database
+    fun getID(user: User)
+    {
+        TABLE_NAME = "Users"
+
+        val db = this.readableDatabase
+        //Get user with matching password
+        val query = "SELECT " + COL_ID + " FROM " + TABLE_NAME + " WHERE " + COL_FNAME + " = " + user.fName +
+                " AND " + COL_MNAME + " = " + user.mName +
+                " AND " + COL_LNAME + " = " + user.lName +
+                " AND " + COL_BDAY + " = " + user.bDay
+
+        val result = db.rawQuery(query, null)
+        if(result.moveToFirst())
+        {
+            do{
+                //Set user object ID to ID found in column
+                user.id = result.getString(0).toInt()
+            }while (result.moveToNext())
+        }
+        result.close()
+        db.close()
     }
 
 }
