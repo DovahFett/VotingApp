@@ -136,7 +136,8 @@
         android:hint="@string/editTextZIPCode"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spnState" />
+        app:layout_constraintTop_toBottomOf="@+id/spnState"
+        android:autofillHints="#####" />
 
     <TextView
         android:id="@+id/txtZip"
@@ -157,17 +158,6 @@
         android:text="@string/btnRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextZip" />
-
-    <TextView
-        android:id="@+id/txtFingerprint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="@string/add_fingerprint_below"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imgFingerprint"

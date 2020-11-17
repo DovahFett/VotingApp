@@ -24,6 +24,7 @@
     <string name="imgFingerprint">Image of a fingerprint</string>
     <string name="txtTitleBallots">Your Ballots</string>
     <string name="lblBallotList">Available Ballots</string>
+    <string name="lblIDBallots">ID #:</string>
 
     <string-array name="state_list">
         <item>Alabama</item>

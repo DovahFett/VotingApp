@@ -22,8 +22,11 @@ class RegisterActivity : AppCompatActivity()
         spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spnState.adapter = spnAdapter
 
+        var pm1 = PasswordManager()
+        var pm2 = PasswordManager()
+
         val context = this
-        val db = DataBaseHandler(context)
+        //val db = DataBaseHandler(context)
         //When register button is pressed
         btnRegister.setOnClickListener {
             if (editTextFName.text.toString().isNotEmpty())
@@ -37,7 +40,9 @@ class RegisterActivity : AppCompatActivity()
                             if(editTextZip.text.toString().isNotEmpty() && editTextZip.text.toString().length == 5)
                             {
                                 //Create new user with contents of text fields
+
                                 val user = User(
+                                    (pm1.generatePassword(isWithLetters = false, isWithUppercase = false, isWithNumbers = true, isWithSpecial = false, 8).toInt()),
                                     editTextFName.text.toString(),
                                     editTextMName.text.toString(),
                                     editTextLName.text.toString(),
@@ -45,7 +50,9 @@ class RegisterActivity : AppCompatActivity()
                                     spnState.selectedItem.toString(),
                                     Integer.parseInt(editTextZip?.text.toString())
                                 )
-                                db.insertUser(user)
+
+                                user.setUserPassword(pm2.generatePassword(isWithLetters = true, isWithUppercase = true, isWithNumbers = true, isWithSpecial = true, 16))//Generate strong password for user
+
                                 val intent = Intent(this, FingerprintAuthentication::class.java)
                                 intent.putExtra("User", user)//Pass the user object
                                 startActivity(intent)

@@ -6,6 +6,48 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/txtPasswordBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="20dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblPasswordBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtZipBallots" />
+
+    <TextView
+        android:id="@+id/lblPasswordBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/userPassword"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblZipBallots" />
+
+    <TextView
+        android:id="@+id/txtIDBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="88dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblIDBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitleBallotList" />
+
+    <TextView
+        android:id="@+id/lblIDBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="88dp"
+        android:text="@string/lblIDBallots"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitleBallotList" />
+
+    <TextView
         android:id="@+id/lblBallotList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +62,7 @@
         android:id="@+id/spnBallots"
         android:layout_width="210dp"
         android:layout_height="44dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="16dp"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,61 +73,61 @@
         android:id="@+id/txtZipBallots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="300dp"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblZipBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtStateBallots" />
 
     <TextView
         android:id="@+id/txtStateBallots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="300dp"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblStateBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtBDayBallots" />
 
     <TextView
         android:id="@+id/txtBDayBallots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="300dp"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblBDayBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtLNameBallots" />
 
     <TextView
         android:id="@+id/txtLNameBallots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="300dp"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblLNameBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtMNameBallots" />
 
     <TextView
         android:id="@+id/txtMNameBallots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="300dp"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblMNameBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtFNameBallots" />
 
     <TextView
         android:id="@+id/txtFNameBallots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="300dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="20dp"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitleBallotList" />
+        app:layout_constraintStart_toEndOf="@+id/lblFNameBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtIDBallots" />
 
     <TextView
         android:id="@+id/lblZipBallots"
@@ -147,11 +189,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="122dp"
+        android:layout_marginTop="20dp"
         android:text="@string/first_name"
         android:textAlignment="textEnd"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitleBallotList" />
+        app:layout_constraintTop_toBottomOf="@+id/lblIDBallots" />
 
     <TextView
         android:id="@+id/txtTitleBallotList"

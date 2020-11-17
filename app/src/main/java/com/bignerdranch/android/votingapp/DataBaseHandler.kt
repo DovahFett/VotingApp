@@ -24,13 +24,14 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     {
         //Create User table
         val createTable = "CREATE TABLE " + TABLE_NAME + " (" +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_ID + " INTEGER PRIMARY KEY, " +
                 COL_FNAME + " VARCHAR(256)," +
                 COL_MNAME + " VARCHAR(256)," +
                 COL_LNAME + " VARCHAR(256)," +
                 COL_BDAY + " VARCHAR(256)," +
                 COL_STATE + " VARCHAR(256)," +
-                COL_ZIPCODE + " VARCHAR(256)," + COL_PASSWORD + " VARCHAR(256))";
+                COL_ZIPCODE + " VARCHAR(256)," +
+                COL_PASSWORD + " VARCHAR(256))"
 
         db?.execSQL(createTable)
 
@@ -62,7 +63,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     {
         var list: MutableList<User> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PASSWORD + " = " + user.password//Get user with matching password
+        val query = "SELECT * FROM " + TABLE_NAME + " WHERE '" + COL_PASSWORD + "' = " + user.password//Get user with matching password
         val result = db.rawQuery(query, null)
         if(result.moveToFirst())
         {
@@ -83,36 +84,37 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
         return list
     }
-    //Update user's password in database
-    fun updatePassword(user: User)
+    //Set user's password in database
+    fun setPassword(user: User)
     {
         val db = this.writableDatabase
         var cv = ContentValues()
         cv.put(COL_PASSWORD, user.password)
-        db.update("Users", cv, "ID=" +user.id, null)
+        db.update("Users", cv, "FirstName=" + user.fName + " AND MiddleName= " + user.mName + " AND LastName=" + user.lName + " AND DateOfBirth=" + user.bDay + " AND State=" + user.state + " AND ZIPCode=" + user.zipCode, null)
     }
     //Get the user's ID from the database
-    fun getID(user: User)
+    fun getID(user: User) : MutableList<User>
     {
         TABLE_NAME = "Users"
 
+        var list: MutableList<User> = ArrayList()
         val db = this.readableDatabase
         //Get user with matching password
-        val query = "SELECT " + COL_ID + " FROM " + TABLE_NAME + " WHERE " + COL_FNAME + " = " + user.fName +
-                " AND " + COL_MNAME + " = " + user.mName +
-                " AND " + COL_LNAME + " = " + user.lName +
-                " AND " + COL_BDAY + " = " + user.bDay
+        val query = "SELECT " + COL_ID + " FROM " + TABLE_NAME + " WHERE " + COL_PASSWORD+ " = " + user.password //Get ID from row with matching password
 
         val result = db.rawQuery(query, null)
         if(result.moveToFirst())
         {
             do{
+                var user = User()
                 //Set user object ID to ID found in column
                 user.id = result.getString(0).toInt()
+                list.add(user)
             }while (result.moveToNext())
         }
         result.close()
         db.close()
+        return list
     }
 
 }
