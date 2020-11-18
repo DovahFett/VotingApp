@@ -29,14 +29,28 @@ class MainActivity : AppCompatActivity()
 
         //Validate login field data
         btnLogin.setOnClickListener{
-            if(editTextEnterID.text.isNotEmpty())
+            if(editTextEnterID.text.isNotEmpty())//If ID field is filled
             {
-                //if(editTextEnterPassword.text.isNotEmpty() && editTextEnterPassword.text.contains())
-                Toast.makeText(this, "Valid Data Detected", Toast.LENGTH_SHORT).show()
+                if(editTextEnterPassword.text.isNotEmpty())//If password is filled
+                {
+                    var password = (editTextEnterPassword.text).toString()
+                    var data = db.readData(password)//Get data of user with matching password
+                    var user = User()//Create user object
+                    user = data[0]//Set object equal to result of query
+
+                    //Go to authentication page and bring the user object.
+                    val intent = Intent(this, FingerprintAuthentication::class.java)
+                    intent.putExtra("User", user)//Pass the user object
+                    startActivity(intent)
+
+
+                }
+
+
             }
-            else if(editTextEnterID.text.isEmpty())
+            else if(editTextEnterID.text.isEmpty() || editTextEnterPassword.text.isEmpty())
             {
-                Toast.makeText(this, "No Data Detected", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
             }
         }
 

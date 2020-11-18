@@ -24,7 +24,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     {
         //Create User table
         val createTable = "CREATE TABLE " + TABLE_NAME + " (" +
-                COL_ID + " INTEGER PRIMARY KEY, " +
+                COL_ID + " INTEGER NOT NULL PRIMARY KEY, " +
                 COL_FNAME + " VARCHAR(256)," +
                 COL_MNAME + " VARCHAR(256)," +
                 COL_LNAME + " VARCHAR(256)," +
@@ -59,11 +59,11 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             Toast.makeText(context, "Insert Succeeded", Toast.LENGTH_SHORT).show()
     }
     //Retrieve user info
-    fun readData(user : User) : MutableList<User>
+    fun readData(password : String) : MutableList<User>
     {
         var list: MutableList<User> = ArrayList()
         val db = this.readableDatabase
-        val query = "SELECT * FROM " + TABLE_NAME + " WHERE '" + COL_PASSWORD + "' = " + user.password//Get user with matching password
+        val query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PASSWORD + " = " + "'" + password + "'"//Get user with matching password
         val result = db.rawQuery(query, null)
         if(result.moveToFirst())
         {

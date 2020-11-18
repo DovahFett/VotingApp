@@ -15,23 +15,24 @@ class BallotList : AppCompatActivity()
         val context = this
         val db = DataBaseHandler(context)
 
-        val user = intent.getSerializableExtra("User") as User? //Receive user from RegisterActivity.kt
+        var user = intent.getSerializableExtra("User") as User? //Receive user from RegisterActivity.kt
 
         if (user != null) {
             Toast.makeText(this, "Hello " + user.fName, Toast.LENGTH_LONG).show()
 
 
-            var data = db.readData(user)
+            var data = db.readData(user.password)
+            user = data[0]
 
 
-            txtIDBallots.text = data[0].toString()//user.id.toString()
-            txtFNameBallots.text = data[1].toString()//user.fName
-            txtMNameBallots.text = data[2].toString()//user.mName
-            txtLNameBallots.text = data[3].toString()//user.lName
-            txtBDayBallots.text = data[4].toString()//user.bDay
-            txtStateBallots.text = data[5].toString()//user.state
-            txtZipBallots.text = data[6].toString()//user.zipCode.toString()
-            txtPasswordBallots.text = data[7].toString()//user.password
+            txtIDBallots.text = user.id.toString()
+            txtFNameBallots.text = user.fName
+            txtMNameBallots.text = user.mName
+            txtLNameBallots.text = user.lName
+            txtBDayBallots.text = user.bDay
+            txtStateBallots.text = user.state
+            txtZipBallots.text = user.zipCode.toString()
+            txtPasswordBallots.text = user.password
 
         }
         else

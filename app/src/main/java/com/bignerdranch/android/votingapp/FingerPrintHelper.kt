@@ -16,8 +16,7 @@ import androidx.core.content.ContextCompat.startActivity
 class FingerPrintHelper(private val context: Context, val user: User) : FingerprintManager.AuthenticationCallback()
 {
     lateinit var cancellationSignal : CancellationSignal
-    val db = DataBaseHandler(context)
-    val pm = PasswordManager()
+
     fun startAuth(manager: FingerprintManager, cryptoObject : FingerprintManager.CryptoObject)
     {
         cancellationSignal = CancellationSignal()
@@ -38,9 +37,7 @@ class FingerPrintHelper(private val context: Context, val user: User) : Fingerpr
     {
         super.onAuthenticationSucceeded(result)
         Toast.makeText(context, "Authentication Succeeded", Toast.LENGTH_LONG).show()
-        //user.password = pm.generatePassword(isWithLetters = true, isWithUppercase = true, isWithNumbers = true, isWithSpecial = true, 16)//Generate strong password for user
-        db.insertUser(user)//Add user to database
-        //db.setPassword(user)//Set user's password in database
+
         val intent = Intent(context, BallotList::class.java)
         intent.putExtra("User", user)//Pass the user object
         context.startActivity(intent)

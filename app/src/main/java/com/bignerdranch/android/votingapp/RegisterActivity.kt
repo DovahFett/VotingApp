@@ -41,18 +41,14 @@ class RegisterActivity : AppCompatActivity()
                             {
                                 //Create new user with contents of text fields
 
-                                val user = User(
-                                    (pm1.generatePassword(isWithLetters = false, isWithUppercase = false, isWithNumbers = true, isWithSpecial = false, 8).toInt()),
-                                    editTextFName.text.toString(),
-                                    editTextMName.text.toString(),
-                                    editTextLName.text.toString(),
-                                    editTextBDay.text.toString(),
-                                    spnState.selectedItem.toString(),
-                                    Integer.parseInt(editTextZip?.text.toString())
-                                )
+                                var user = User(editTextFName.text.toString(),editTextMName.text.toString(),editTextLName.text.toString(),editTextBDay.text.toString(),spnState.selectedItem.toString(),Integer.parseInt(editTextZip.text.toString()))
 
+
+                                user.id = pm1.generatePassword(isWithLetters = false, isWithUppercase = false, isWithNumbers = true, isWithSpecial = false, 8).toInt()//Generate user ID
                                 user.setUserPassword(pm2.generatePassword(isWithLetters = true, isWithUppercase = true, isWithNumbers = true, isWithSpecial = true, 16))//Generate strong password for user
 
+                                val db = DataBaseHandler(context)
+                                db.insertUser(user)//Add user to database
                                 val intent = Intent(this, FingerprintAuthentication::class.java)
                                 intent.putExtra("User", user)//Pass the user object
                                 startActivity(intent)

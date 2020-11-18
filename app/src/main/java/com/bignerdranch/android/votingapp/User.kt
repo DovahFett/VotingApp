@@ -14,9 +14,8 @@ class User : Serializable //Serializable object that can be passed between activ
     var zipCode : Int = 0
     var password : String = ""
 
-    constructor(id : Int, fName : String, mName : String, lName : String, bDay : String, state : String, zipCode : Int)
+    constructor(fName : String, mName : String, lName : String, bDay : String, state : String, zipCode : Int)
     {
-        this.id = id
         this.fName = fName
         this.mName = mName
         this.lName = lName
