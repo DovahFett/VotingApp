@@ -5,6 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/btnOpenBallot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/btnOpenBallot"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/txtPasswordBallots"
         android:layout_width="wrap_content"
@@ -53,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="@string/lblBallotList"
-        android:textAlignment="textEnd"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/spnBallots"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -62,9 +75,9 @@
         android:id="@+id/spnBallots"
         android:layout_width="210dp"
         android:layout_height="44dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="20dp"
         android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnOpenBallot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/arrow_down_float" />

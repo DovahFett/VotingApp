@@ -23,7 +23,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     override fun onCreate(db: SQLiteDatabase?)
     {
         //Create User table
-        val createTable = "CREATE TABLE " + TABLE_NAME + " (" +
+        val createUserTable = "CREATE TABLE " + TABLE_NAME + " (" +
                 COL_ID + " INTEGER NOT NULL PRIMARY KEY, " +
                 COL_FNAME + " VARCHAR(256)," +
                 COL_MNAME + " VARCHAR(256)," +
@@ -33,7 +33,37 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 COL_ZIPCODE + " VARCHAR(256)," +
                 COL_PASSWORD + " VARCHAR(256))"
 
-        db?.execSQL(createTable)
+        db?.execSQL(createUserTable)
+
+        //Create Ballot table
+        val createBallotTable = "CREATE TABLE " + "Ballots" + " (" +
+                COL_ID + " INTEGER NOT NULL PRIMARY KEY, " +
+                "ElectionName" + " VARCHAR(256)," +
+                COL_STATE + " VARCHAR(256)," +
+                COL_ZIPCODE + " VARCHAR(256)," +
+                "StartDate" + " VARCHAR(256)," +
+                "EndDate" + " VARCHAR(256)," +
+                "BallotID" + " INTEGER)"
+
+        db?.execSQL(createBallotTable)
+
+        //Create Candidate Details table
+        val createCandidateDetailsTable = "CREATE TABLE " + "CandidateDetails" + " (" +
+                COL_ID + " INTEGER NOT NULL PRIMARY KEY, " +
+                "CandidateName" + " VARCHAR(256)," +
+                "CandidateParty" + " VARCHAR(256)," +
+                "BallotID" + " INTEGER)"
+
+        db?.execSQL(createCandidateDetailsTable)
+
+        //Create ballot and insert it
+        var election1 = Ballot("2020 Presidential Election", "All", 0, "11/03/2020", "11/04/2020", 10)
+        insertBallot(election1, db)
+        //Create candidates and insert them
+        var candidate1 = Candidate("Elijah Harrison", "Democrat", 10)
+        var candidate2 = Candidate("Jeb Collins", "Republican", 10)
+        insertCandidates(candidate1, db)
+        insertCandidates(candidate2, db)
 
     }
 
@@ -43,7 +73,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     //Insert new users
     fun insertUser(user : User)
     {
-        val db = this.writableDatabase
+        var db = this.writableDatabase
         var cv = ContentValues()
         cv.put(COL_FNAME, user.fName)
         cv.put(COL_MNAME, user.mName)
@@ -53,6 +83,42 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         cv.put(COL_ZIPCODE, user.zipCode)
         cv.put(COL_PASSWORD, user.password)
         var result = db.insert(TABLE_NAME, null, cv)
+        if (result == (-1).toLong())
+            Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(context, "Insert Succeeded", Toast.LENGTH_SHORT).show()
+    }
+
+    //insertBallot is called once at startup to place ballots in database.
+    private fun insertBallot(election : Ballot, db: SQLiteDatabase?)
+    {
+
+
+        var cv = ContentValues()
+        cv.put("ElectionName", election.electionName)
+        cv.put(COL_STATE, election.state)
+        cv.put(COL_ZIPCODE, election.zipCode)
+        cv.put("StartDate", election.startDate)
+        cv.put("EndDate", election.endDate)
+        cv.put("BallotID", election.ballotID)
+
+        var result = db?.insert("Ballots", null, cv)
+        if (result == (-1).toLong())
+            Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(context, "Insert Succeeded", Toast.LENGTH_SHORT).show()
+
+    }
+    //Called once to add example candidates to database
+    private fun insertCandidates(candidate: Candidate, db : SQLiteDatabase?)
+    {
+
+        var cv = ContentValues()
+        cv.put("CandidateName", candidate.candidateName)
+        cv.put("CandidateParty", candidate.party)
+        cv.put("BallotID", candidate.ballotID)
+
+        var result = db?.insert("CandidateDetails", null, cv)
         if (result == (-1).toLong())
             Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show()
         else
@@ -84,6 +150,8 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
         return list
     }
+
+
     //Set user's password in database
     fun setPassword(user: User)
     {
