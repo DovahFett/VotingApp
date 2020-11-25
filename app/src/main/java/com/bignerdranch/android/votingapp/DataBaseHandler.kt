@@ -43,7 +43,11 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 COL_ZIPCODE + " VARCHAR(256)," +
                 "StartDate" + " VARCHAR(256)," +
                 "EndDate" + " VARCHAR(256)," +
-                "BallotID" + " INTEGER)"
+                "BallotID" + " INTEGER," +
+                "Status" + " VARCHAR(256)," +
+                "DemocratVotes" + " INTEGER," +
+                "RepublicanVotes" + " INTEGER," +
+                "Winner" + " VARCHAR(256))"
 
         db?.execSQL(createBallotTable)
 
@@ -61,8 +65,8 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         insertBallot(election1, db)
         //Create candidates and insert them
         var candidate1 = Candidate("Elijah Harrison", "Democrat", 10)
-        var candidate2 = Candidate("Jeb Collins", "Republican", 10)
         insertCandidates(candidate1, db)
+        var candidate2 = Candidate("Jeb Collins", "Republican", 10)
         insertCandidates(candidate2, db)
 
     }
@@ -101,6 +105,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         cv.put("StartDate", election.startDate)
         cv.put("EndDate", election.endDate)
         cv.put("BallotID", election.ballotID)
+        cv.put("Status", "Open")
+        cv.put("DemocratVotes", 0)
+        cv.put("RepublicanVotes", 0)
+
 
         var result = db?.insert("Ballots", null, cv)
         if (result == (-1).toLong())
@@ -150,7 +158,29 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
         return list
     }
+    //Get list of all applicable ballots
+    fun getBallots(zipCode : Int, state : String) : MutableList<Ballot>
+    {
+        var list: MutableList<Ballot> = ArrayList()
+        val db = this.readableDatabase
 
+        val query = "SELECT * FROM Ballots WHERE (ZIPCode = " + zipCode + " OR ZIPCode = 0) AND Status = 'Open' AND (State = " + "'" + state + "'" + " OR State = 'All')"
+
+        val result = db.rawQuery(query,null)
+
+        if(result.moveToFirst())
+        {
+            do
+            {
+               var ballot = Ballot()
+               ballot.electionName = result.getString(1)
+            }while(result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return list
+
+    }
 
     //Set user's password in database
     fun setPassword(user: User)

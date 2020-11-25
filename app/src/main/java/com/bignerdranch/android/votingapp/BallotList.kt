@@ -16,9 +16,7 @@ class BallotList : AppCompatActivity()
         setContentView(R.layout.ballotlist)
 
         val spnBallots = findViewById<Spinner>(R.id.spnBallots)
-        val spnAdapter = ArrayAdapter.createFromResource(this, R.array.state_list,android.R.layout.simple_spinner_dropdown_item)
-        spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spnBallots.adapter = spnAdapter
+
 
         val context = this
         val db = DataBaseHandler(context)
@@ -30,8 +28,8 @@ class BallotList : AppCompatActivity()
             //Toast.makeText(this, "Hello " + user.fName, Toast.LENGTH_LONG).show()
 
 
-            var data = db.readData(user.password)
-            user = data[0]
+            var userData = db.readData(user.password)
+            user = userData[0]
 
             //Load user info into text fields
             txtIDBallots.text = user.id.toString()
@@ -43,6 +41,15 @@ class BallotList : AppCompatActivity()
             txtZipBallots.text = user.zipCode.toString()
             txtPasswordBallots.text = user.password
 
+            var ballotData =  db.getBallots(user.zipCode, user.state)//get list of ballot objects
+            //var ballot = ballotData as Ballot
+            //txtFNameBallots.text = ballot.electionName
+
+
+           // val spnAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,  fillBallotList(ballotData, ballotNames))
+            //spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            //spnBallots.adapter = spnAdapter
+
         }
         else
         {
@@ -51,8 +58,7 @@ class BallotList : AppCompatActivity()
             //val intent = Intent(this, MainActivity::class.java)
             //startActivity(intent)
         }
-
-
-
     }
+
+
 }
