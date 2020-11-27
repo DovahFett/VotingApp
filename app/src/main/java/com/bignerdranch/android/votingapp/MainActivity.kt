@@ -34,23 +34,26 @@ class MainActivity : AppCompatActivity()
                 if(editTextEnterPassword.text.isNotEmpty())//If password is filled
                 {
                     var password = (editTextEnterPassword.text).toString()
-                    var data = db.readData(password)//Get data of user with matching password
+                    var result = db.readData(password)//Get data of user with matching password
                     var user = User()//Create user object
-                    user = data[0]//Set object equal to result of query
+                    if(result.size != 0)
+                    {
+                        user = result[0]//Set object equal to result of query
 
-                    //Go to authentication page and bring the user object.
-                    val intent = Intent(this, FingerprintAuthentication::class.java)
-                    intent.putExtra("User", user)//Pass the user object
-                    startActivity(intent)
-
-
+                        //Go to authentication page and bring the user object.
+                        val intent = Intent(this, FingerprintAuthentication::class.java)
+                        intent.putExtra("User", user)//Pass the user object
+                        startActivity(intent)
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Account not found", Toast.LENGTH_LONG).show()
+                    }
                 }
-
-
             }
             else if(editTextEnterID.text.isEmpty() || editTextEnterPassword.text.isEmpty())
             {
-                Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
         }
 

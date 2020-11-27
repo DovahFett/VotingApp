@@ -29,26 +29,37 @@ class BallotList : AppCompatActivity()
 
 
             var userData = db.readData(user.password)
-            user = userData[0]
-
-            //Load user info into text fields
-            txtIDBallots.text = user.id.toString()
-            txtFNameBallots.text = user.fName
-            txtMNameBallots.text = user.mName
-            txtLNameBallots.text = user.lName
-            txtBDayBallots.text = user.bDay
-            txtStateBallots.text = user.state
-            txtZipBallots.text = user.zipCode.toString()
-            txtPasswordBallots.text = user.password
-
-            var ballotData =  db.getBallots(user.zipCode, user.state)//get list of ballot objects
-            //var ballot = ballotData as Ballot
-            //txtFNameBallots.text = ballot.electionName
+            //If the user's data has been successfully retrieved, display it.
+            if(userData.size != 0)
+            {
+                user = userData[0]
 
 
-           // val spnAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,  fillBallotList(ballotData, ballotNames))
-            //spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            //spnBallots.adapter = spnAdapter
+
+                //Load user info into text fields
+                txtIDBallots.text = user.id.toString()
+                txtFNameBallots.text = user.fName
+                txtMNameBallots.text = user.mName
+                txtLNameBallots.text = user.lName
+                txtBDayBallots.text = user.bDay
+                txtStateBallots.text = user.state
+                txtZipBallots.text = user.zipCode.toString()
+                txtPasswordBallots.text = user.password
+
+                var ballotData =  db.getBallots(user.zipCode, user.state)//get list of ballot objects
+                //var ballot = ballotData as Ballot
+                //txtFNameBallots.text = ballot.electionName
+
+
+                // val spnAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,  fillBallotList(ballotData, ballotNames))
+                //spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                //spnBallots.adapter = spnAdapter
+            }
+            else
+            {
+                Toast.makeText(this, "Error getting user data", Toast.LENGTH_LONG).show()
+            }
+
 
         }
         else
