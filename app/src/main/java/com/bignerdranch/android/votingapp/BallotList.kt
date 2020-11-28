@@ -7,6 +7,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ballotlist.*
+import kotlinx.android.synthetic.main.register.*
 
 class BallotList : AppCompatActivity()
 {
@@ -45,12 +46,24 @@ class BallotList : AppCompatActivity()
                 txtPasswordBallots.text = user.password
 
                 var ballotData : ArrayList<String> = db.getBallotNames(user.zipCode, user.state)//get list of ballot objects
-                if(ballotData.size != 0)
+                if(ballotData.size != 0)//If ballot list is not empty
                 {
                     val spnAdapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, ballotData)
 
                     spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spnBallots.adapter = spnAdapter
+
+
+                    var selectedBallot = spnBallots.selectedItem.toString()
+                    var ballot = Ballot()
+                    ballot.electionName = selectedBallot
+
+                   btnOpenBallot.setOnClickListener {
+                       val intent = Intent(this, BallotPage::class.java)
+                       intent.putExtra("User", user)//Pass the user object
+                       intent.putExtra("Ballot", selectedBallot)
+                       startActivity(intent)
+                   }
                 }
                 else
                 {
@@ -66,8 +79,8 @@ class BallotList : AppCompatActivity()
         {
             Toast.makeText(this, "User not found", Toast.LENGTH_LONG).show()
 
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+           /* val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)*/
         }
     }
 
