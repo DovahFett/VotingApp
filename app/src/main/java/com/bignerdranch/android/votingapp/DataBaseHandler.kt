@@ -182,6 +182,26 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
     }
 
+    fun getBallotNames(zipCode : Int, state : String) : ArrayList<String>
+    {
+        var ballotNames = ArrayList<String>()
+        val db = this.readableDatabase
+        val query = "SELECT * FROM Ballots WHERE (ZIPCode = " + zipCode + " OR ZIPCode = 0) AND Status = 'Open' AND (State = " + "'" + state + "'" + " OR State = 'All')"
+        val result = db.rawQuery(query,null)
+        if(result.moveToFirst())
+        {
+            do
+            {
+                var name = result.getString(1)
+                ballotNames.add(name)
+
+            }while(result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return ballotNames
+    }
+
     //Set user's password in database
     fun setPassword(user: User)
     {
