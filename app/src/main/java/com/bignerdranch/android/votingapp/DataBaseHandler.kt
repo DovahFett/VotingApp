@@ -234,5 +234,22 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
         return list
     }
+    //Get the ID associated with the election
+    fun getBallotID(ballot : Ballot)
+    {
+        val db = this.readableDatabase
+        val query = "SELECT BallotID FROM Ballots WHERE ElectionName = " + ballot.electionName
+        val result = db.rawQuery(query, null)
+        if(result.moveToFirst())
+        {
+            do
+            {
+                ballot.id = result.getString(6).toInt()
+            }while(result.moveToNext())
+        }
+        result.close()
+        db.close()
+
+    }
 
 }

@@ -26,6 +26,13 @@
     <string name="lblBallotList">Available Ballots</string>
     <string name="lblIDBallots">ID #:</string>
     <string name="btnOpenBallot">Open Ballot</string>
+    <string name="txtElectionTitle">Election Title</string>
+    <string name="rButtonChoice1">Candidate 1</string>
+    <string name="rButtonChoice2">Candidate 2</string>
+    <string name="btnSubmitBallot">Submit</string>
+    <string name="btnPreviousPage">Previous</string>
+    <string name="btnNextPage">Next</string>
+    <string name="txtPositionName">Position Name</string>
 
     <string-array name="state_list">
         <item>Alabama</item>

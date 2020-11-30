@@ -6,6 +6,7 @@ class Ballot : Serializable
 {
     var id : Int = 0
     var electionName : String = ""
+    var positionName : String = ""
     var state : String = ""
     var zipCode : Int = 0
     var startDate : String = ""
@@ -15,6 +16,7 @@ class Ballot : Serializable
     var democratVotes : Int = 0
     var republicanVotes : Int = 0
     var winner : String = ""
+
 
 
     constructor(electionName : String, state : String, zipCode : Int, startDate : String, endDate : String, ballotID : Int)
