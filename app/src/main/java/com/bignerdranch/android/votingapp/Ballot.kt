@@ -19,14 +19,16 @@ class Ballot : Serializable
 
 
 
-    constructor(electionName : String, state : String, zipCode : Int, startDate : String, endDate : String, ballotID : Int)
+    constructor(electionName : String, state : String, zipCode : Int, startDate : String, endDate : String, ballotID : Int, positionName : String)
     {
         this.electionName = electionName
+        this.positionName = positionName
         this.state = state
         this.zipCode = zipCode
         this.startDate = startDate
         this.endDate = endDate
         this.ballotID = ballotID
+
     }
 
     constructor()

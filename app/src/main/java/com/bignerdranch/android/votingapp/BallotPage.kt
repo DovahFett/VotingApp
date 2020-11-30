@@ -1,5 +1,6 @@
 package com.bignerdranch.android.votingapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,12 +21,33 @@ class BallotPage : AppCompatActivity()
         {
             Toast.makeText(this, "Welcome", Toast.LENGTH_LONG).show()
             txtElectionTitle.text = ballot.electionName
-            txtPositionName.text = ballot.positionName
-
+            //Start database connection
             val context = this
             val db = DataBaseHandler(context)
 
-            db.getBallotID(ballot)//Get ID associated with election name
+            var ballotIDList : ArrayList<Int> = db.getBallotID(ballot)//Get ID associated with election name
+            ballot.ballotID = ballotIDList[0]
+
+            var ballotNameList : ArrayList<String> = db.getPositionName(ballot)//Get name of position on ballot
+            ballot.positionName = ballotNameList[0]
+            txtPositionName.text = ballot.positionName
+
+            var candidateData : ArrayList<String> = db.getCandidates(ballot)
+            if(candidateData.size != 0)
+            {
+                //Attach candidate info to radio buttons
+                rButtonChoice1.text = candidateData[0]
+                rButtonChoice2.text = candidateData[1]
+            }
+
+            btnSubmitBallot.setOnClickListener{
+                val intent = Intent(this, BallotList::class.java)
+                intent.putExtra("User", user)//Pass the user object
+                Toast.makeText(this, "Submission Complete", Toast.LENGTH_LONG).show()
+                startActivity(intent)
+            }
+
+
 
 
         }

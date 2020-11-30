@@ -44,6 +44,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 "StartDate" + " VARCHAR(256)," +
                 "EndDate" + " VARCHAR(256)," +
                 "BallotID" + " INTEGER," +
+                "PositionName" + " VARCHAR(256)," +
                 "Status" + " VARCHAR(256)," +
                 "DemocratVotes" + " INTEGER," +
                 "RepublicanVotes" + " INTEGER," +
@@ -61,7 +62,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db?.execSQL(createCandidateDetailsTable)
 
         //Create ballot and insert it
-        var election1 = Ballot("2020 Presidential Election", "All", 0, "11/03/2020", "11/04/2020", 10)
+        var election1 = Ballot("2020 Presidential Election", "All", 0, "11/03/2020", "11/04/2020", 10, "President of the United States")
         insertBallot(election1, db)
         //Create candidates and insert them
         var candidate1 = Candidate("Elijah Harrison", "Democrat", 10)
@@ -105,6 +106,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         cv.put("StartDate", election.startDate)
         cv.put("EndDate", election.endDate)
         cv.put("BallotID", election.ballotID)
+        cv.put("PositionName", election.positionName)
         cv.put("Status", "Open")
         cv.put("DemocratVotes", 0)
         cv.put("RepublicanVotes", 0)
@@ -235,21 +237,65 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return list
     }
     //Get the ID associated with the election
-    fun getBallotID(ballot : Ballot)
+    fun getBallotID(ballot : Ballot) : ArrayList<Int>
     {
+        var ballotIDArray = ArrayList<Int>()
         val db = this.readableDatabase
-        val query = "SELECT BallotID FROM Ballots WHERE ElectionName = " + ballot.electionName
+        val query = "SELECT BallotID FROM Ballots WHERE ElectionName = " + "'" + ballot.electionName + "'"
         val result = db.rawQuery(query, null)
         if(result.moveToFirst())
         {
             do
             {
-                ballot.id = result.getString(6).toInt()
+                var ballotIDResult = result.getString(0).toInt()
+                ballotIDArray.add(ballotIDResult)
             }while(result.moveToNext())
         }
         result.close()
         db.close()
+        return ballotIDArray
 
+    }
+
+    //Get the name of the position the election is for
+    fun getPositionName(ballot : Ballot) : ArrayList<String>
+    {
+        var electionNameArray = ArrayList<String>()
+        val db = this.readableDatabase
+        val query = "SELECT PositionName FROM Ballots WHERE ElectionName = " + "'" + ballot.electionName + "'"
+        val result = db.rawQuery(query, null)
+        if(result.moveToFirst())
+        {
+            do
+            {
+                var electionNameResult = result.getString(0)
+                electionNameArray.add(electionNameResult)
+            }while(result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return electionNameArray
+
+    }
+
+    fun getCandidates(ballot: Ballot) : ArrayList<String>
+    {
+        var candidateDetails = ArrayList<String>()
+        val db = this.readableDatabase
+        val query = "SELECT * FROM CandidateDetails WHERE BallotID = " + ballot.ballotID
+        val result = db.rawQuery(query,null)
+        if(result.moveToFirst())
+        {
+            do {
+
+                var candidateInfo = result.getString(1) + " - " + result.getString(2)//Append name and part into one string
+                candidateDetails.add(candidateInfo)
+
+            }while(result.moveToNext())
+        }
+        result.close()
+        db.close()
+        return candidateDetails
     }
 
 }
