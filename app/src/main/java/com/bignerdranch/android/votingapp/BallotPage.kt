@@ -2,12 +2,15 @@ package com.bignerdranch.android.votingapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ballot_page.*
 
 class BallotPage : AppCompatActivity()
 {
+    private lateinit var selectedRadioButton: RadioButton
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -41,8 +44,12 @@ class BallotPage : AppCompatActivity()
             }
 
             btnSubmitBallot.setOnClickListener{
-                val intent = Intent(this, BallotList::class.java)
+                val selectedRadioButtonId: Int = rGrpChoices.checkedRadioButtonId
+                selectedRadioButton = findViewById(selectedRadioButtonId)
+                val intent = Intent(this, BallotSummary::class.java)
                 intent.putExtra("User", user)//Pass the user object
+                intent.putExtra("ElectionDetails", ballot)
+                intent.putExtra("Choice 1", selectedRadioButton.text)
                 Toast.makeText(this, "Submission Complete", Toast.LENGTH_LONG).show()
                 startActivity(intent)
             }

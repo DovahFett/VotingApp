@@ -33,6 +33,9 @@
     <string name="btnPreviousPage">Previous</string>
     <string name="btnNextPage">Next</string>
     <string name="txtPositionName">Position Name</string>
+    <string name="txtTitleBallotSummary">Ballot Summary</string>
+    <string name="lblChoice1"><![CDATA[<b>%1$s:</b> %2$s]]></string>
+    <string name="btnBallotSummary"><![CDATA[Submit & Return to Ballots Page]]></string>
 
     <string-array name="state_list">
         <item>Alabama</item>
