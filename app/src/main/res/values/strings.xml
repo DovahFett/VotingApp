@@ -34,7 +34,14 @@
     <string name="btnNextPage">Next</string>
     <string name="txtPositionName">Position Name</string>
     <string name="txtTitleBallotSummary">Ballot Summary</string>
-    <string name="lblChoice1"><![CDATA[<b>%1$s:</b> %2$s]]></string>
+    <string name="txtPosition1">%1$s %2$s</string>
+    <string name="txtChoice1">%1$s %2$s</string>
+    <string name="txtPosition2">%1$s %2$s</string>
+    <string name="txtChoice2">%1$s %2$s</string>
+    <string name="txtPosition3">%1$s %2$s</string>
+    <string name="txtChoice3">%1$s %2$s</string>
+    <string name="txtPosition4">%1$s %2$s</string>
+    <string name="txtChoice4">%1$s %2$s</string>
     <string name="btnBallotSummary"><![CDATA[Submit & Return to Ballots Page]]></string>
 
     <string-array name="state_list">
