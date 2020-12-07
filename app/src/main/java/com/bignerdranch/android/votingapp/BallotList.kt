@@ -7,7 +7,6 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ballotlist.*
-import kotlinx.android.synthetic.main.register.*
 
 class BallotList : AppCompatActivity()
 {
@@ -29,10 +28,11 @@ class BallotList : AppCompatActivity()
             //Toast.makeText(this, "Hello " + user.fName, Toast.LENGTH_LONG).show()
 
 
-            var userData = db.readData(user.password)
+            val userData = db.readData(user.password)
             //If the user's data has been successfully retrieved, display it.
             if(userData.size != 0)
             {
+                //set user parameters equal to those received from the database
                 user = userData[0]
 
                 //Load user info into text fields
@@ -45,17 +45,17 @@ class BallotList : AppCompatActivity()
                 txtZipBallots.text = user.zipCode.toString()
                 txtPasswordBallots.text = user.password
 
-                var ballotData : ArrayList<String> = db.getBallotNames(user.zipCode, user.state)//get list of ballot objects
+                val ballotData : ArrayList<String> = db.getBallotNames(user.zipCode, user.state, user)//get list of ballot objects
                 if(ballotData.size != 0)//If ballot list is not empty
                 {
+                    //Load ballot names into spinner
                     val spnAdapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, ballotData)
-
                     spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spnBallots.adapter = spnAdapter
 
 
-                    var selectedBallot = spnBallots.selectedItem.toString()
-                    var ballot = Ballot()
+                    val selectedBallot = spnBallots.selectedItem.toString()
+                    val ballot = Ballot()
                     ballot.electionName = selectedBallot
 
                    btnOpenBallot.setOnClickListener {

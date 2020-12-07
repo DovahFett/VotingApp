@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ballot_summary.*
 
 
+
 class BallotSummary : AppCompatActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?)
@@ -14,10 +15,14 @@ class BallotSummary : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ballot_summary)
 
-        var ballot = intent.getSerializableExtra("ElectionDetails") as Ballot?
-        var user = intent.getSerializableExtra("User") as User?
+        //Make database connection
+        val context = this
+        val db = DataBaseHandler(context)
+
+        val ballot = intent.getSerializableExtra("ElectionDetails") as Ballot?
+        val user = intent.getSerializableExtra("User") as User
         //Creates an array to hold the choices made in the previously accessed ballot.
-        var ballotChoices = ArrayList<String>()
+        val ballotChoices = ArrayList<String>()
         ballotChoices.add(intent.getSerializableExtra("Choice 1") as String)
 
         if (ballot != null)
@@ -70,9 +75,30 @@ class BallotSummary : AppCompatActivity()
             btnBallotSummary.setOnClickListener{
                 ballot.status = "Closed"
                 val intent = Intent(this, BallotList::class.java)
+
+                System.out.println("Hello There : " + ballotChoices[0])
+
+
+                if(ballotChoices[0].contains("Democrat"))
+                {
+                    db.addVote(ballot, "Democrat")
+                    db.closeVoteToUser(ballot, user)
+                    System.out.println("ballot.electionName = " + ballot.electionName)
+                    System.out.println("ballot.BallotID = " + ballot.ballotID)
+                }
+                else if(ballotChoices[0].contains("Republican"))
+                {
+                    db.addVote(ballot, "Republican")
+                    db.closeVoteToUser(ballot, user)
+                    System.out.println("ballot.electionName = " + ballot.electionName)
+                    System.out.println("ballot.BallotID = " + ballot.ballotID)
+                }
+
+
                 intent.putExtra("User", user)//Pass the user object
                 intent.putExtra("ElectionDetails", ballot)
-                Toast.makeText(this, "Confirmed", Toast.LENGTH_LONG).show()
+
+                Toast.makeText(this, "Confirmed", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
             }
         }

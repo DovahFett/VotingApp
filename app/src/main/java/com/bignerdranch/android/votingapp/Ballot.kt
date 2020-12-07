@@ -13,9 +13,9 @@ class Ballot : Serializable
     var endDate : String = ""
     var ballotID : Int = 0
     var status : String = ""
-    var democratVotes : Int = 0
+   /* var democratVotes : Int = 0
     var republicanVotes : Int = 0
-    var winner : String = ""
+    var winner : String = ""*/
 
 
 
@@ -32,10 +32,6 @@ class Ballot : Serializable
     }
 
     constructor()
-    {
-
-    }
-
 
 
 }
