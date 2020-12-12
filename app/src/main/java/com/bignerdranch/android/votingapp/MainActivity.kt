@@ -56,6 +56,11 @@ class MainActivity : AppCompatActivity()
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
         }
+        //View credits page
+        btnCredits.setOnClickListener {
+            val intent = Intent(this, Credits::class.java)
+            startActivity(intent)
+        }
 
 
     }
