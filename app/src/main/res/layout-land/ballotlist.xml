@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnOpenBallot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="56dp"
+        android:text="@string/btnOpenBallot"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spnBallots" />
+
+    <TextView
+        android:id="@+id/txtPasswordBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblPasswordBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtZipBallots" />
+
+    <TextView
+        android:id="@+id/lblPasswordBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/userPassword"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblZipBallots" />
+
+    <TextView
+        android:id="@+id/txtIDBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="40dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblIDBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitleBallotList" />
+
+    <TextView
+        android:id="@+id/lblIDBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/lblIDBallots"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitleBallotList" />
+
+    <TextView
+        android:id="@+id/lblBallotList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/lblBallotList"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.891"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitleBallotList" />
+
+    <Spinner
+        android:id="@+id/spnBallots"
+        android:layout_width="210dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="20dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.969"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblBallotList"
+        app:srcCompat="@android:drawable/arrow_down_float" />
+
+    <TextView
+        android:id="@+id/txtZipBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="5dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblZipBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtStateBallots" />
+
+    <TextView
+        android:id="@+id/txtStateBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="5dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblStateBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtBDayBallots" />
+
+    <TextView
+        android:id="@+id/txtBDayBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="5dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblBDayBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtLNameBallots" />
+
+    <TextView
+        android:id="@+id/txtLNameBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="5dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblLNameBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtMNameBallots" />
+
+    <TextView
+        android:id="@+id/txtMNameBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblMNameBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtFNameBallots" />
+
+    <TextView
+        android:id="@+id/txtFNameBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="5dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toEndOf="@+id/lblFNameBallots"
+        app:layout_constraintTop_toBottomOf="@+id/txtIDBallots" />
+
+    <TextView
+        android:id="@+id/lblZipBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/zip_code"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblStateBallots" />
+
+    <TextView
+        android:id="@+id/lblStateBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/state"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblBDayBallots" />
+
+    <TextView
+        android:id="@+id/lblBDayBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/date_of_birth"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblLNameBallots" />
+
+    <TextView
+        android:id="@+id/lblLNameBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/last_name"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblMNameBallots" />
+
+    <TextView
+        android:id="@+id/lblMNameBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/middle_name"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblFNameBallots" />
+
+    <TextView
+        android:id="@+id/lblFNameBallots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/first_name"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblIDBallots" />
+
+    <TextView
+        android:id="@+id/txtTitleBallotList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/txtTitleBallots"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

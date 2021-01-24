@@ -33,9 +33,9 @@ class MainActivity : AppCompatActivity()
             {
                 if(editTextEnterPassword.text.isNotEmpty())//If password is filled
                 {
-                    var password = (editTextEnterPassword.text).toString()
-                    var result = db.readData(password)//Get data of user with matching password
-                    var user = User()//Create user object
+                    val password = (editTextEnterPassword.text).toString()
+                    val result = db.readData(password)//Get data of user with matching password
+                    val user: User//Create user object
                     if(result.size != 0)
                     {
                         user = result[0]//Set object equal to result of query

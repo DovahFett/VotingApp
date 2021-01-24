@@ -110,13 +110,11 @@ class FingerprintAuthentication : AppCompatActivity()
                 cryptoObject = FingerprintManager.CryptoObject(it)
             }
         }
-        var helper = FingerPrintHelper(this, user)
-        if(fm != null && cryptoObject != null)
-        {
-            helper.startAuth(fm, cryptoObject)
-        }
+        val helper = FingerPrintHelper(this, user)
+        helper.startAuth(fm, cryptoObject)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun initCipher() : Boolean
     {
         try
