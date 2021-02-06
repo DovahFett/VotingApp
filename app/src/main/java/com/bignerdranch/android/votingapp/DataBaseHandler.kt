@@ -8,14 +8,14 @@ import android.widget.Toast
 
  const val DATABASE_NAME = "VotingDB"
  var TABLE_NAME = "Users"
- val COL_ID = "ID"
- val COL_FNAME = "FirstName"
- val COL_MNAME = "MiddleName"
- val COL_LNAME = "LastName"
- val COL_BDAY = "DateOfBirth"
- val COL_STATE = "State"
- val COL_ZIPCODE = "ZIPCode"
- val COL_PASSWORD = "Password"
+ const val COL_ID = "ID"
+ const val COL_FNAME = "FirstName"
+ const val COL_MNAME = "MiddleName"
+ const val COL_LNAME = "LastName"
+ const val COL_BDAY = "DateOfBirth"
+ const val COL_STATE = "State"
+ const val COL_ZIPCODE = "ZIPCode"
+ const val COL_PASSWORD = "Password"
 
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1)
@@ -218,7 +218,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return ballotNames
     }
 
-    fun checkIfAlreadyVoted(ballotNames: ArrayList<String>, user: User) : ArrayList<String>
+    private fun checkIfAlreadyVoted(ballotNames: ArrayList<String>, user: User) : ArrayList<String>
     {
         val db = this.readableDatabase
         val ballotIDs = ArrayList<Int>()
@@ -226,7 +226,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
         for(i in ballotNames)
         {
-            val getIDs = "SELECT * FROM Ballots WHERE ElectionName = " + "'" + i + "'"
+            val getIDs = "SELECT * FROM Ballots WHERE ElectionName = '$i'"
             val result = db.rawQuery(getIDs,null)
             if(result.moveToFirst())//fill ballotID array with IDs that are attached to the specified election name
             {

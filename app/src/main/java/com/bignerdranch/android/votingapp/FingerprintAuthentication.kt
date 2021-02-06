@@ -19,15 +19,15 @@ import javax.crypto.SecretKey
 class FingerprintAuthentication : AppCompatActivity()
 {
 
-    lateinit var fm : FingerprintManager
-    lateinit var km : KeyguardManager
+    private lateinit var fm : FingerprintManager
+    private lateinit var km : KeyguardManager
 
-    lateinit var keyStore : KeyStore
-    lateinit var keyGenerator : KeyGenerator
-    var KEY_NAME = "my_key"
+    private lateinit var keyStore : KeyStore
+    private lateinit var keyGenerator : KeyGenerator
+    private var keyName = "my_key"
 
-    lateinit var cipher : Cipher
-    lateinit var cryptoObject : FingerprintManager.CryptoObject
+    private lateinit var cipher : Cipher
+    private lateinit var cryptoObject : FingerprintManager.CryptoObject
 
     lateinit var user : User
 
@@ -90,7 +90,7 @@ class FingerprintAuthentication : AppCompatActivity()
             keyStore = KeyStore.getInstance("AndroidKeyStore")
             keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
             keyStore.load(null)
-            keyGenerator.init(KeyGenParameterSpec.Builder(KEY_NAME,
+            keyGenerator.init(KeyGenParameterSpec.Builder(keyName,
                     KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                     .setUserAuthenticationRequired(true)
@@ -126,7 +126,7 @@ class FingerprintAuthentication : AppCompatActivity()
         }
         return try {
             keyStore.load(null)
-            val key = keyStore.getKey(KEY_NAME, null) as SecretKey
+            val key = keyStore.getKey(keyName, null) as SecretKey
             cipher.init(Cipher.ENCRYPT_MODE, key)
             true
         } catch (e:Exception) {

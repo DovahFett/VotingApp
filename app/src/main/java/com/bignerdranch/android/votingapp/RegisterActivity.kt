@@ -1,16 +1,22 @@
 package com.bignerdranch.android.votingapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.register.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class RegisterActivity : AppCompatActivity()
 {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -22,11 +28,15 @@ class RegisterActivity : AppCompatActivity()
         spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spnState.adapter = spnAdapter
 
-        var pm1 = PasswordManager()
-        var pm2 = PasswordManager()
+        val pm1 = PasswordManager()
+        val pm2 = PasswordManager()
+        //Get the current date
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        val currentDate = current.format(formatter)
 
         val context = this
-        //val db = DataBaseHandler(context)
+        //Toast.makeText(context, "Date: $currentDate", Toast.LENGTH_SHORT).show()
         //When register button is pressed
         btnRegister.setOnClickListener {
             if (editTextFName.text.toString().isNotEmpty())
@@ -35,27 +45,36 @@ class RegisterActivity : AppCompatActivity()
                 {
                     if(editTextLName.text.toString().isNotEmpty())
                     {
-                        if(editTextBDay.text.toString().isNotEmpty())
+                        val convertedBirthDate = LocalDate.parse(editTextBDay.text.toString(), DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                        val years = ChronoUnit.YEARS.between(convertedBirthDate, current)
+
+                        if(editTextBDay.text.toString().isNotEmpty())//Check if user is at least 18 years old
                         {
-                            if(editTextZip.text.toString().isNotEmpty() && editTextZip.text.toString().length == 5)
+                            if(years >= 18)
                             {
-                                //Create new user with contents of text fields
+                                if(editTextZip.text.toString().isNotEmpty() && editTextZip.text.toString().length == 5)
+                                {
+                                    //Create new user with contents of text fields
 
-                                var user = User(editTextFName.text.toString(),editTextMName.text.toString(),editTextLName.text.toString(),editTextBDay.text.toString(),spnState.selectedItem.toString(),Integer.parseInt(editTextZip.text.toString()))
+                                    val user = User(editTextFName.text.toString(),editTextMName.text.toString(),editTextLName.text.toString(),editTextBDay.text.toString(),spnState.selectedItem.toString(),Integer.parseInt(editTextZip.text.toString()))
 
+                                    user.id = pm1.generatePassword(isWithLetters = false, isWithUppercase = false, isWithNumbers = true, isWithSpecial = false, 8).toInt()//Generate user ID
+                                    user.setUserPassword(pm2.generatePassword(isWithLetters = true, isWithUppercase = true, isWithNumbers = true, isWithSpecial = true, 16))//Generate strong password for user
 
-                                user.id = pm1.generatePassword(isWithLetters = false, isWithUppercase = false, isWithNumbers = true, isWithSpecial = false, 8).toInt()//Generate user ID
-                                user.setUserPassword(pm2.generatePassword(isWithLetters = true, isWithUppercase = true, isWithNumbers = true, isWithSpecial = true, 16))//Generate strong password for user
-
-                                val db = DataBaseHandler(context)
-                                db.insertUser(user)//Add user to database
-                                val intent = Intent(this, FingerprintAuthentication::class.java)
-                                intent.putExtra("User", user)//Pass the user object
-                                startActivity(intent)
+                                    val db = DataBaseHandler(context)
+                                    db.insertUser(user)//Add user to database
+                                    val intent = Intent(this, FingerprintAuthentication::class.java)
+                                    intent.putExtra("User", user)//Pass the user object
+                                    startActivity(intent)
+                                }
+                                else
+                                {
+                                    Toast.makeText(context, "ZIP # must be 5 characters long", Toast.LENGTH_SHORT).show()
+                                }
                             }
                             else
                             {
-                                Toast.makeText(context, "ZIP # must be 5 characters long", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Must be at least 18 to register", Toast.LENGTH_SHORT).show()
                             }
                         }
                         else

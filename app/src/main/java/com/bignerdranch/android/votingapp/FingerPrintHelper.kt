@@ -10,12 +10,11 @@ import android.os.CancellationSignal
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.startActivity
 
 @RequiresApi(Build.VERSION_CODES.M)
 class FingerPrintHelper(private val context: Context, val user: User) : FingerprintManager.AuthenticationCallback()
 {
-    lateinit var cancellationSignal : CancellationSignal
+    private lateinit var cancellationSignal : CancellationSignal
 
     fun startAuth(manager: FingerprintManager, cryptoObject : FingerprintManager.CryptoObject)
     {
