@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@+id/lblPasswordBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtZipBallots" />
 
@@ -45,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginTop="70dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@+id/lblIDBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtTitleBallotList" />
 
@@ -88,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
         android:layout_marginTop="10dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@+id/lblZipBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtStateBallots" />
 
@@ -98,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
         android:layout_marginTop="10dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@+id/lblStateBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtBDayBallots" />
 
@@ -108,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="10dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@+id/lblBDayBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtLNameBallots" />
 
@@ -118,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginTop="10dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@+id/lblLNameBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtMNameBallots" />
 
@@ -128,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@+id/lblMNameBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtFNameBallots" />
 
@@ -138,7 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginTop="10dp"
-        android:textAlignment="textEnd"
+        android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@+id/lblFNameBallots"
         app:layout_constraintTop_toBottomOf="@+id/txtIDBallots" />
 

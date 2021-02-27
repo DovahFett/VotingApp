@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.widget.Toast
 
- const val DATABASE_NAME = "VotingDB"
+const val DATABASE_NAME = "VotingDB"
  var TABLE_NAME = "Users"
  const val COL_ID = "ID"
  const val COL_FNAME = "FirstName"
@@ -16,7 +16,6 @@ import android.widget.Toast
  const val COL_STATE = "State"
  const val COL_ZIPCODE = "ZIPCode"
  const val COL_PASSWORD = "Password"
-
 
 class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1)
 {
@@ -87,6 +86,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     fun insertUser(user : User)
     {
         val db = this.writableDatabase
+        val encryptedPassword = AESEncryption.encrypt(user.password) //encrypt password
         val cv = ContentValues()
         cv.put(COL_FNAME, user.fName)
         cv.put(COL_MNAME, user.mName)
@@ -94,7 +94,8 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         cv.put(COL_BDAY, user.bDay)
         cv.put(COL_STATE, user.state)
         cv.put(COL_ZIPCODE, user.zipCode)
-        cv.put(COL_PASSWORD, user.password)
+        cv.put(COL_PASSWORD, encryptedPassword)
+        //cv.put(COL_PASSWORD, user.passwordHash)
         val result = db.insert(TABLE_NAME, null, cv)
         if (result == (-1).toLong())
             Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show()
@@ -105,8 +106,6 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     //insertBallot is called once at startup to place ballots in database.
     private fun insertBallot(election : Ballot, db: SQLiteDatabase?)
     {
-
-
         val cv = ContentValues()
         cv.put("ElectionName", election.electionName)
         cv.put(COL_STATE, election.state)
@@ -119,14 +118,13 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         cv.put("DemocratVotes", 0)
         cv.put("RepublicanVotes", 0)
 
-
         val result = db?.insert("Ballots", null, cv)
         if (result == (-1).toLong())
             Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show()
         else
             Toast.makeText(context, "Insert Succeeded", Toast.LENGTH_SHORT).show()
-
     }
+
     //Called once to add example candidates to database
     private fun insertCandidates(candidate: Candidate, db : SQLiteDatabase?)
     {
@@ -143,56 +141,34 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
             Toast.makeText(context, "Insert Succeeded", Toast.LENGTH_SHORT).show()
     }
     //Retrieve user info
-    fun readData(password : String) : MutableList<User>
-    {
+    fun readData(password : String): MutableList<User> {
         val list: MutableList<User> = ArrayList()
         val db = this.readableDatabase
+        val returnedUser = User()
+        val decryptedPassword = AESEncryption.encrypt(password)
         val query =
-            "SELECT * FROM $TABLE_NAME WHERE $COL_PASSWORD = '$password'"//Get user with matching password
+            "SELECT * FROM $TABLE_NAME WHERE $COL_PASSWORD = '$decryptedPassword'"//Get user with matching password
         val result = db.rawQuery(query, null)
         if(result.moveToFirst())
         {
             do{
-                val user = User()
-                user.id = result.getString(0).toInt()
-                user.fName = result.getString(1)
-                user.mName = result.getString(2)
-                user.lName = result.getString(3)
-                user.bDay = result.getString(4)
-                user.state = result.getString(5)
-                user.zipCode = result.getString(6).toInt()
-                user.password = result.getString(7)
-                list.add(user)
+
+                returnedUser.id = result.getString(0).toInt()
+                returnedUser.fName = result.getString(1)
+                returnedUser.mName = result.getString(2)
+                returnedUser.lName = result.getString(3)
+                returnedUser.bDay = result.getString(4)
+                returnedUser.state = result.getString(5)
+                returnedUser.zipCode = result.getString(6).toInt()
+                returnedUser.password = AESEncryption.decrypt(result.getString(7)).toString()
+                list.add(returnedUser)
             }while (result.moveToNext())
         }
+        //if(BCrypt.checkpw(password, returnedUser.password))
         result.close()
         db.close()
         return list
     }
- /*   //Get list of all applicable ballots
-    fun getBallots(zipCode : Int, state : String) : MutableList<Ballot>
-    {
-        val list: MutableList<Ballot> = ArrayList()
-        val db = this.readableDatabase
-
-        val query =
-            "SELECT * FROM Ballots WHERE (ZIPCode = $zipCode OR ZIPCode = 0) AND Status = 'Open' AND (State = '$state' OR State = 'All')"
-
-        val result = db.rawQuery(query,null)
-
-        if(result.moveToFirst())
-        {
-            do
-            {
-               val ballot = Ballot()
-               ballot.electionName = result.getString(1)
-            }while(result.moveToNext())
-        }
-        result.close()
-        db.close()
-        return list
-
-    }*/
 
     fun getBallotNames(zipCode : Int, state : String, user : User) : ArrayList<String>
     {
@@ -301,38 +277,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         db.close()
     }
 
-    /*//Set user's password in database
-    fun setPassword(user: User)
-    {
-        val db = this.writableDatabase
-        val cv = ContentValues()
-        cv.put(COL_PASSWORD, user.password)
-        db.update("Users", cv, "FirstName=" + user.fName + " AND MiddleName= " + user.mName + " AND LastName=" + user.lName + " AND DateOfBirth=" + user.bDay + " AND State=" + user.state + " AND ZIPCode=" + user.zipCode, null)
-    }*/
-    /*//Get the user's ID from the database
-    fun getID(user: User) : MutableList<User>
-    {
-        TABLE_NAME = "Users"
 
-        val list: MutableList<User> = ArrayList()
-        val db = this.readableDatabase
-        //Get user with matching password
-        val query = "SELECT " + COL_ID + " FROM " + TABLE_NAME + " WHERE " + COL_PASSWORD+ " = " + user.password //Get ID from row with matching password
-
-        val result = db.rawQuery(query, null)
-        if(result.moveToFirst())
-        {
-            do{
-                val user = User()
-                //Set user object ID to ID found in column
-                user.id = result.getString(0).toInt()
-                list.add(user)
-            }while (result.moveToNext())
-        }
-        result.close()
-        db.close()
-        return list
-    }*/
     //Get the ID associated with the election
     fun getBallotID(ballot : Ballot) : ArrayList<Int>
     {
@@ -353,8 +298,6 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return ballotIDArray
 
     }
-
-
 
     //Get the name of the position the election is for
     fun getPositionName(ballot : Ballot) : ArrayList<String>

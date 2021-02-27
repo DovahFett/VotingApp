@@ -1,7 +1,8 @@
 package com.bignerdranch.android.votingapp
 
-import java.util.*
+import org.mindrot.jbcrypt.BCrypt
 import java.io.Serializable
+
 //User object that is used to hold user information
 class User : Serializable //Serializable object that can be passed between activities
 {
@@ -13,6 +14,8 @@ class User : Serializable //Serializable object that can be passed between activ
     var state : String = ""
     var zipCode : Int = 0
     var password : String = ""
+    var passwordHash : String = ""
+
 
     constructor(fName : String, mName : String, lName : String, bDay : String, state : String, zipCode : Int)
     {
@@ -26,12 +29,12 @@ class User : Serializable //Serializable object that can be passed between activ
     }
 
     constructor()
-    {
-
-    }
 
     fun setUserPassword(password: String)
     {
         this.password = password
+        this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt(10))
     }
+
+
 }

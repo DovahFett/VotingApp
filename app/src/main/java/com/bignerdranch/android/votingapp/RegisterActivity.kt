@@ -31,11 +31,12 @@ class RegisterActivity : AppCompatActivity()
         val pm1 = PasswordManager()
         val pm2 = PasswordManager()
         //Get the current date
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-        val currentDate = current.format(formatter)
+        val current = LocalDateTime.now() //Get date & time
+        //val formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+        //val currentDate = current.format(formatter)
 
         val context = this
+
         //Toast.makeText(context, "Date: $currentDate", Toast.LENGTH_SHORT).show()
         //When register button is pressed
         btnRegister.setOnClickListener {
@@ -59,7 +60,8 @@ class RegisterActivity : AppCompatActivity()
                                     val user = User(editTextFName.text.toString(),editTextMName.text.toString(),editTextLName.text.toString(),editTextBDay.text.toString(),spnState.selectedItem.toString(),Integer.parseInt(editTextZip.text.toString()))
 
                                     user.id = pm1.generatePassword(isWithLetters = false, isWithUppercase = false, isWithNumbers = true, isWithSpecial = false, 8).toInt()//Generate user ID
-                                    user.setUserPassword(pm2.generatePassword(isWithLetters = true, isWithUppercase = true, isWithNumbers = true, isWithSpecial = true, 16))//Generate strong password for user
+                                    user.setUserPassword(pm2.generatePassword(isWithLetters = true, isWithUppercase = true, isWithNumbers = true, isWithSpecial = true, 16))//Generate strong password for user & hash it
+
 
                                     val db = DataBaseHandler(context)
                                     db.insertUser(user)//Add user to database
