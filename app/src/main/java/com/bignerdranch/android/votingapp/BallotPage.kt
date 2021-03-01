@@ -1,11 +1,13 @@
 package com.bignerdranch.android.votingapp
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ballot_page.*
+
 
 class BallotPage : AppCompatActivity()
 {
@@ -34,12 +36,31 @@ class BallotPage : AppCompatActivity()
         txtPositionName.text = ballot.positionName
 
         val candidateData : ArrayList<String> = db.getCandidates(ballot)
-        if(candidateData.size != 0)
+
+        //Create radio buttons
+        for (i in 0 until candidateData.size)
+        {
+            val radioButton = RadioButton(this)
+            radioButton.text = candidateData[i]
+            radioButton.id = i
+            rGrpChoices.addView(radioButton)
+        }
+
+        //set listener to radio button group
+        /*rGrpChoices.setOnCheckedChangeListener { _, _ ->
+            val checkedRadioButtonId: Int = rGrpChoices.checkedRadioButtonId
+            val radioBtn = findViewById<View>(checkedRadioButtonId) as RadioButton
+            Toast.makeText(this, radioBtn.text, Toast.LENGTH_SHORT).show()
+        }*/
+
+        /*if(candidateData.size != 0)
         {
             //Attach candidate info to radio buttons
             rButtonChoice1.text = candidateData[0]
             rButtonChoice2.text = candidateData[1]
-        }
+        }*/
+
+
 
         btnSubmitBallot.setOnClickListener{
             val selectedRadioButtonId: Int = rGrpChoices.checkedRadioButtonId

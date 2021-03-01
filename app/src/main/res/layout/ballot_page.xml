@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!-- Nested Scroll View -->
 
     <TextView
         android:id="@+id/txtElectionTitle"
@@ -16,6 +17,47 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtPositionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="177dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="177dp"
+        android:text="@string/txtPositionName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtElectionTitle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmitBallot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPositionName">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/rGrpChoices"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
+                android:scrollbars="vertical"
+                android:visibility="visible" />
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/btnNextPage"
@@ -49,40 +91,19 @@
         app:layout_constraintEnd_toStartOf="@+id/btnNextPage"
         app:layout_constraintStart_toEndOf="@+id/btnPreviousPage" />
 
-    <TextView
-        android:id="@+id/txtPositionName"
-        android:layout_width="wrap_content"
+    <!--<androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview_choices"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="177dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="177dp"
-        android:text="@string/txtPositionName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtElectionTitle" />
-
-    <RadioGroup
-        android:id="@+id/rGrpChoices"
-        android:layout_width="325dp"
-        android:layout_height="107dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="164dp"
-        android:layout_marginEnd="46dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_above="@+id/btnSubmitBallot"
+        android:layout_below="@id/txtPositionName"
+        android:layout_marginBottom="10dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmitBallot"
         app:layout_constraintTop_toBottomOf="@+id/txtPositionName">
 
-        <RadioButton
-            android:id="@+id/rButtonChoice1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rButtonChoice1" />
 
-        <RadioButton
-            android:id="@+id/rButtonChoice2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rButtonChoice2"
-            app:layout_constraintTop_toBottomOf="@+id/rButtonChoice1" />
-    </RadioGroup>
+    </androidx.core.widget.NestedScrollView>-->
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

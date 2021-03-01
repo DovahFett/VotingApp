@@ -1,3 +1,5 @@
+//Encrypts and decrypts strings
+//Taken from https://stackoverflow.com/questions/49340005/encrypt-decrypt-string-kotlin
 package com.bignerdranch.android.votingapp
 
 import android.util.Base64

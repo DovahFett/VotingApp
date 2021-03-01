@@ -1,4 +1,8 @@
 package com.bignerdranch.android.votingapp
 
-class BallotListFragment {
+import androidx.fragment.app.Fragment
+
+class BallotListFragment : Fragment(R.layout.ballot_list_fragment)
+{
+
 }

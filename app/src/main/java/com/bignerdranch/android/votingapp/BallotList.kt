@@ -54,14 +54,16 @@ class BallotList : AppCompatActivity()
                     spnBallots.adapter = spnAdapter
 
 
-                    val selectedBallot = spnBallots.selectedItem.toString()
-                    val ballot = Ballot()
-                    ballot.electionName = selectedBallot
+
 
                    btnOpenBallot.setOnClickListener {
+                       val selectedBallot = spnBallots.selectedItem.toString()
+                       val ballot = Ballot()
+                       ballot.electionName = selectedBallot
                        val intent = Intent(this, BallotPage::class.java)
                        intent.putExtra("User", user)//Pass the user object
                        intent.putExtra("Ballot", selectedBallot)
+                       Toast.makeText(this, selectedBallot, Toast.LENGTH_LONG).show()
                        startActivity(intent)
                    }
                 }
