@@ -78,7 +78,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         val candidate2 = Candidate("Jeb Collins", "Republican", 10)
         insertCandidates(candidate2, db)
 
-        val election2 = Ballot("Test Election", "All", 0, "02/28/21", "03/07/21", 11, "House Representative")
+        val election2 = Ballot("Test Election", "All", 0, "02/28/2021", "03/07/2021", 11, "House Representative")
         insertBallot(election2, db)
         val candidate3 = Candidate("Sarah Maxson", "Democrat", 11)
         insertCandidates(candidate3, db)
@@ -204,7 +204,6 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 list.add(returnedUser)
             }while (result.moveToNext())
         }
-        //if(BCrypt.checkpw(password, returnedUser.password))
         result.close()
         db.close()
         return list
@@ -212,100 +211,42 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
     fun getBallotNames(zipCode : Int, state : String, user : User) : ArrayList<String>
     {
+        val userID = user.id
         val ballotNames = ArrayList<String>()
+        val listOfTakenBallots = ArrayList<String>()
         val db = this.readableDatabase
 
-        //val query =
-            "SELECT * FROM Ballots WHERE (ZIPCode = $zipCode OR ZIPCode = 0) AND Status = 'Open' AND (State = '$state' OR State = 'All')"
-        //val result = db.rawQuery(query,null)
-        val query2 = "SELECT * FROM Ballots LEFT JOIN SubmittedVotes ON SubmittedVotes.BallotID = Ballots.BallotID WHERE (ZIPCode = $zipCode OR ZIPCode = 0) AND Status = 'Open' AND (State = '$state' OR State = 'All')"
+
+        val query = "SELECT * FROM Ballots LEFT JOIN SubmittedVotes ON SubmittedVotes.BallotID = Ballots.BallotID WHERE (ZIPCode = $zipCode OR ZIPCode = 0) AND Status = 'Open' AND (State = '$state' OR State = 'All') AND SubmittedVotes.VoterID = $userID"
+        val result = db.rawQuery(query, null)
+        if(result.moveToFirst())
+        {
+            do{
+                val nameOfTakenBallot = result.getString(1) //Get names of all ballots that have been taken
+                listOfTakenBallots.add(nameOfTakenBallot)
+            }while(result.moveToNext())
+        }
+        result.close()
+
+        val query2 = "SELECT * FROM Ballots WHERE (ZIPCode = $zipCode OR ZIPCode = 0) AND Status = 'Open' AND (State = '$state' OR State = 'All')"
         val result2 = db.rawQuery(query2, null)
         if(result2.moveToFirst())
         {
-            do
-            {
-                var name = result2.getString(1)
-                var status : String
-                if(result2.getString(15) != null)
-                {
-                    status = result2.getString(15)
-                    if(!status.equals("Closed"))
-                    {
-                        ballotNames.add(name)
-                    }
-
-                }
-                else if(result2.getString(15) == null)
-                {
-                    ballotNames.add(name)
-                }
-
-
-
+            do{
+                val nameOfBallot = result2.getString(1) //Get list of all ballot names
+                ballotNames.add(nameOfBallot)
             }while(result2.moveToNext())
         }
-
-
         result2.close()
 
-
-        //ballotNames = checkIfAlreadyVoted(ballotNames, user)
-        db.close()
-        return ballotNames
-    }
-
-    private fun checkIfAlreadyVoted(ballotNames: ArrayList<String>, user: User) : ArrayList<String>
-    {
-        val db = this.readableDatabase
-        val ballotIDs = ArrayList<Int>()
-        val ballotStatus = ArrayList<String>()
-
-        for(i in ballotNames)
+        for(i in listOfTakenBallots)
         {
-            val getIDs = "SELECT * FROM Ballots WHERE ElectionName = '$i'"
-            val result = db.rawQuery(getIDs,null)
-            if(result.moveToFirst())//fill ballotID array with IDs that are attached to the specified election name
-            {
-                do
-                {
-                    val id = result.getString(6).toInt()
-                    ballotIDs.add(id)
-
-                }while(result.moveToNext())
-            }
-            result.close()
-        }
-
-        for(i in ballotIDs)
-        {
-            val getStatus = "SELECT * FROM SubmittedVotes WHERE BallotID = " + i + " AND VoterID = " + user.id
-            val result = db.rawQuery(getStatus, null)
-            if(result.moveToFirst())//fill ballotStatus array with statuses that match the provided Ballot and User IDs
-            {
-                do
-                {
-                    val status = result.getString(3)
-                   // val id = result.getString(2).toInt()
-                    ballotStatus.add(status)
-
-
-                }while(result.moveToNext())
-            }
-
-
-            result.close()
-
-        }
-        //By this point I have an Int array of IDs and a String array of statuses for those IDs
-
-        for(i in ballotStatus)
-        {
-            if(i == "Closed")
+            if(ballotNames.contains(i))
             {
                 ballotNames.remove(i)
-
             }
         }
+        db.close()
         return ballotNames
     }
 

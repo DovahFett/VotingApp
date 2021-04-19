@@ -24,6 +24,11 @@ class BallotList : AppCompatActivity()
 
         var user = intent.getSerializableExtra("User") as User? //Receive user from RegisterActivity.kt
 
+        btnLogout.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         if (user != null)
         {
             //Toast.makeText(this, "Hello " + user.fName, Toast.LENGTH_LONG).show()

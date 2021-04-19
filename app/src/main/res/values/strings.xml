@@ -49,6 +49,7 @@
     <string name="btnCredits">Credits</string>
     <string name="btnReturnHome">Return</string>
     <string name="btnExitApp">Exit App</string>
+    <string name="btnLogout">Logout</string>
 
     <string-array name="state_list">
         <item>Alabama</item>
