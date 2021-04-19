@@ -18,6 +18,7 @@ class BallotList : AppCompatActivity()
         val spnBallots = findViewById<Spinner>(R.id.spnBallots)
 
 
+
         val context = this
         val db = DataBaseHandler(context)
 
@@ -45,11 +46,19 @@ class BallotList : AppCompatActivity()
                 txtZipBallots.text = user.zipCode.toString()
                 txtPasswordBallots.text = user.password
 
-                val ballotData : ArrayList<String> = db.getBallotNames(user.zipCode, user.state, user)//get list of ballot objects
+                val ballotData : ArrayList<String> = db.getBallotNames(
+                    user.zipCode,
+                    user.state,
+                    user
+                )//get list of ballot objects
                 if(ballotData.size != 0)//If ballot list is not empty
                 {
                     //Load ballot names into spinner
-                    val spnAdapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, ballotData)
+                    val spnAdapter = ArrayAdapter(
+                        this,
+                        R.layout.support_simple_spinner_dropdown_item,
+                        ballotData
+                    )
                     spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spnBallots.adapter = spnAdapter
 
@@ -69,7 +78,7 @@ class BallotList : AppCompatActivity()
                 }
                 else
                 {
-                    Toast.makeText(this, "Error retrieving ballots", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "No ballots available", Toast.LENGTH_LONG).show()
                 }
             }
             else
@@ -85,6 +94,10 @@ class BallotList : AppCompatActivity()
             startActivity(intent)*/
         }
     }
+
+
+
+
 
 
 }

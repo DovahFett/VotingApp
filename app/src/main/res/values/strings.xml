@@ -48,6 +48,7 @@
     <string name="textCredit2"><div>Fingerprint icon made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <string name="btnCredits">Credits</string>
     <string name="btnReturnHome">Return</string>
+    <string name="btnExitApp">Exit App</string>
 
     <string-array name="state_list">
         <item>Alabama</item>

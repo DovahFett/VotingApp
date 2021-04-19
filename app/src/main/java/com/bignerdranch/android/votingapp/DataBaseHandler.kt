@@ -32,6 +32,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 COL_ZIPCODE + " VARCHAR(256)," +
                 COL_PASSWORD + " VARCHAR(256))"
 
+
         db?.execSQL(createUserTable)
 
         //Create Ballot table
@@ -47,7 +48,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
                 "Status" + " VARCHAR(256)," +
                 "DemocratVotes" + " INTEGER," +
                 "RepublicanVotes" + " INTEGER," +
-                "Winner" + " VARCHAR(256))"
+                "Winner" + " VARCHAR(256) DEFAULT 'None')"
 
         db?.execSQL(createBallotTable)
 
@@ -211,24 +212,44 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
     fun getBallotNames(zipCode : Int, state : String, user : User) : ArrayList<String>
     {
-        var ballotNames = ArrayList<String>()
+        val ballotNames = ArrayList<String>()
         val db = this.readableDatabase
 
-        val query =
+        //val query =
             "SELECT * FROM Ballots WHERE (ZIPCode = $zipCode OR ZIPCode = 0) AND Status = 'Open' AND (State = '$state' OR State = 'All')"
-        val result = db.rawQuery(query,null)
-        if(result.moveToFirst())
+        //val result = db.rawQuery(query,null)
+        val query2 = "SELECT * FROM Ballots LEFT JOIN SubmittedVotes ON SubmittedVotes.BallotID = Ballots.BallotID WHERE (ZIPCode = $zipCode OR ZIPCode = 0) AND Status = 'Open' AND (State = '$state' OR State = 'All')"
+        val result2 = db.rawQuery(query2, null)
+        if(result2.moveToFirst())
         {
             do
             {
-                val name = result.getString(1)
-                ballotNames.add(name)
+                var name = result2.getString(1)
+                var status : String
+                if(result2.getString(15) != null)
+                {
+                    status = result2.getString(15)
+                    if(!status.equals("Closed"))
+                    {
+                        ballotNames.add(name)
+                    }
 
-            }while(result.moveToNext())
+                }
+                else if(result2.getString(15) == null)
+                {
+                    ballotNames.add(name)
+                }
+
+
+
+            }while(result2.moveToNext())
         }
-        result.close()
 
-        ballotNames = checkIfAlreadyVoted(ballotNames, user)
+
+        result2.close()
+
+
+        //ballotNames = checkIfAlreadyVoted(ballotNames, user)
         db.close()
         return ballotNames
     }
@@ -270,6 +291,8 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
                 }while(result.moveToNext())
             }
+
+
             result.close()
 
         }
